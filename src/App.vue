@@ -1,17 +1,17 @@
 <template>
   <div id="app" class="page">
     <TheNavigation />
-    <!-- <TheMainContent /> -->
+    <TheMainContent />
   </div>
 </template>
 
 <script>
 import TheNavigation from "@/components/TheNavigation";
-// import TheMainContent from "@/components/TheMainContent";
+import TheMainContent from "@/components/TheMainContent";
 export default {
   components: {
-    TheNavigation
-    // TheMainContent
+    TheNavigation,
+    TheMainContent
   }
 };
 </script>
