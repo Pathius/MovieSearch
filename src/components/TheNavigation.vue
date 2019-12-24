@@ -6,6 +6,9 @@
         class="nav__searching-input"
         v-model="title"
         @keypress.enter="submit(title)"
+        @focus="placeholder = ''"
+        @blur="placeholder = 'Insert your movie title here'"
+        :placeholder="placeholder"
       />
       <i class="nav__searching-icon fas fa-search" @click="submit(title)"></i>
     </nav>
@@ -14,7 +17,8 @@
 <script>
 export default {
   data: () => ({
-    title: ""
+    title: "",
+    placeholder: "Insert your movie title here"
   }),
   methods: {
     submit(title) {
@@ -30,12 +34,17 @@ export default {
   align-items: center;
   &__searching-input {
     width: 70%;
-    background-color: rgba(255, 255, 255, 0.219);
-    font-size: 54px;
+    background-color: rgba(255, 255, 255, 0.13);
+    font-size: 46px;
     color: white;
     border: none;
     padding-left: 72px;
     text-align: center;
+    border-radius: 10px;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.61);
+    }
   }
   &__searching-icon {
     position: absolute;
