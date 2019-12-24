@@ -7,7 +7,7 @@ Vue.use(Vuex, VueAxios, axios)
 
 export default new Vuex.Store({
   state: {
-    movies: []
+    movies: [],
   },
   mutations: {
     setMovies: (state, payload) => {
@@ -16,9 +16,10 @@ export default new Vuex.Store({
   },
   actions: {
     searchByTitle: (context, payload) => {
-      axios.get("http://www.omdbapi.com/?apikey=37207fe&s=" + payload).then(response => {
-        context.commit('setMovies', response.data.Search)
-      })
+      axios.get("https://api.themoviedb.org/3/search/movie?api_key=4a2556ad0cbaf0c9369adc89e3aaf7de&query=" + payload)
+        .then(response => {
+          context.commit("setMovies", response.data.results)
+        })
     }
   },
   modules: {
