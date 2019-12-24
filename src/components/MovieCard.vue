@@ -1,7 +1,12 @@
 <template>
   <div>
     <section class="card">
-      <img :src="'https://image.tmdb.org/t/p/w500'+movie.poster_path" class="card__img" />
+      <img
+        :src="movie.poster_path ?
+        'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
+        require('../assets/no-poster.jpg')"
+        class="card__img"
+      />
       <h5 class="card__title">{{movie.title}}</h5>
     </section>
   </div>
@@ -12,7 +17,8 @@ export default {
     movie: Object
   },
   data: () => ({
-    isLoading: true
+    isLoading: true,
+    noPoster: "./assets/no-poster.jpg"
   })
 };
 </script>
@@ -28,8 +34,8 @@ export default {
   align-items: center;
   border-radius: 20px;
   transition-duration: 0.6s;
-  @media screen and (max-width: 640px) {
-    width: 80vw;
+  @media screen and (max-width: 1400px) {
+    width: 20vw;
     height: 450px;
     float: none;
   }
@@ -38,8 +44,8 @@ export default {
     height: 450px;
     float: none;
   }
-  @media screen and (max-width: 1400px) {
-    width: 20vw;
+  @media screen and (max-width: 640px) {
+    width: 80vw;
     height: 450px;
     float: none;
   }
