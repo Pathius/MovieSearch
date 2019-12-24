@@ -22,12 +22,12 @@ body {
 .page {
   margin: 0;
   &__nav {
-    height: 100px;
-    background-color: rgb(56, 54, 54);
+    height: 15vh;
+    background-color: rgba(43, 45, 66, 1);
   }
   &__main {
-    height: 1000px;
-    background-color: rgb(32, 32, 32);
+    min-height: 85vh;
+    background-color: rgba(141, 153, 174, 1);
   }
 }
 </style>
