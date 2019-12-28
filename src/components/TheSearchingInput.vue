@@ -38,9 +38,7 @@ export default {
     border: none;
     border-bottom: 4px solid white;
     font-size: 46px;
-    color: white;
     text-align: center;
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
     &:focus {
       outline: none;
     }

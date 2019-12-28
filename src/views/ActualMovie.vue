@@ -16,16 +16,16 @@
 </template>
 <script>
 export default {
-  computed: {
-    movie() {
-      return this.$store.state.actualMovie;
-    }
+  props: {
+    id: String
   },
   created() {
     this.$store.dispatch("findExactMovie", this.id);
   },
-  props: {
-    id: String
+  computed: {
+    movie() {
+      return this.$store.state.actualMovie;
+    }
   }
 };
 </script>
@@ -33,7 +33,6 @@ export default {
 .movie {
   height: 85vh;
   display: flex;
-  color: rgb(255, 255, 255);
   &__image {
     box-sizing: border-box;
     height: 100%;

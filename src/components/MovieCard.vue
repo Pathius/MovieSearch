@@ -21,8 +21,6 @@ export default {
 <style scoped lang="scss">
 .card {
   background-color: rgba(43, 45, 66, 1);
-  position: relative;
-  display: inline-block;
   width: 15vw;
   height: 400px;
   margin: 20px 2.5vw;
@@ -57,13 +55,11 @@ export default {
   &__title {
     display: flex;
     align-items: center;
-    color: rgb(255, 255, 255);
     text-align: center;
     font-size: 20px;
     font-weight: bold;
     height: 80px;
     margin: auto;
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
   }
   &:hover {
     transform: scale(1.05);

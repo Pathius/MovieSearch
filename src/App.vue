@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="page">
     <TheNavigation />
-    <section tag="div" class="page__content">
+    <section class="page__content">
       <transition name="fade" mode="out-in" appear>
         <router-view></router-view>
       </transition>
@@ -22,8 +22,8 @@ body {
   margin: 0;
 }
 .page {
-  margin: 0;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: white;
   &__nav {
     height: 15vh;
     background-color: rgba(43, 45, 66, 1);
