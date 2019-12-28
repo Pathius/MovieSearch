@@ -36,6 +36,7 @@ export default {
     width: 70%;
     background-color: transparent;
     border: none;
+    color: white;
     border-bottom: 4px solid white;
     font-size: 46px;
     text-align: center;
