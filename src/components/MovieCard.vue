@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="card">
+    <router-link tag="section" class="card" :to="`/movie?id=${movie.id}`">
       <img
         :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
@@ -8,23 +8,21 @@
         class="card__img"
       />
       <h5 class="card__title">{{movie.title}}</h5>
-    </section>
+    </router-link>
   </div>
 </template>
 <script>
 export default {
   props: {
     movie: Object
-  },
-  data: () => ({
-    isLoading: true,
-    noPoster: "./assets/no-poster.jpg"
-  })
+  }
 };
 </script>
 <style scoped lang="scss">
 .card {
   background-color: rgba(43, 45, 66, 1);
+  position: relative;
+  display: inline-block;
   width: 15vw;
   height: 400px;
   margin: 20px 2.5vw;
@@ -34,6 +32,7 @@ export default {
   align-items: center;
   border-radius: 20px;
   transition-duration: 0.6s;
+  cursor: pointer;
   @media screen and (max-width: 1400px) {
     width: 20vw;
     height: 450px;
@@ -49,7 +48,6 @@ export default {
     height: 450px;
     float: none;
   }
-  cursor: pointer;
   &__img {
     width: 100%;
     height: 80%;

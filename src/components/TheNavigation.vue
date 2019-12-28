@@ -1,58 +1,45 @@
 <template>
-  <div>
-    <nav class="page__nav nav">
-      <input
-        type="text"
-        class="nav__searching-input"
-        v-model="title"
-        @keypress.enter="submit(title)"
-        @focus="placeholder = ''"
-        @blur="placeholder = 'Insert your movie title here'"
-        :placeholder="placeholder"
-      />
-      <i class="nav__searching-icon fas fa-search" @click="submit(title)"></i>
-    </nav>
+  <div class="page__nav nav">
+    <router-link tag="div" class="nav__logo" to="/">
+      <i class="nav__logo-icon fas fa-film"></i>
+      <h1>MovieSearch</h1>
+    </router-link>
+    <router-link tag="div" class="nav__favourite" to="/favourite">
+      <h3 class="nav__favourite-text">Favourite movies</h3>
+      <i class="nav__favourite-img fas fa-heart"></i>
+    </router-link>
   </div>
 </template>
 <script>
-export default {
-  data: () => ({
-    title: "",
-    placeholder: "Insert your movie title here"
-  }),
-  methods: {
-    submit(title) {
-      this.$store.dispatch("searchByTitle", title);
-    }
-  }
-};
+export default {};
 </script>
 <style lang="scss">
 .nav {
+  color: white;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  &__searching-input {
-    width: 70%;
-    background-color: rgba(255, 255, 255, 0.13);
-    font-size: 46px;
-    color: white;
-    border: none;
-    padding-left: 72px;
-    text-align: center;
-    border-radius: 10px;
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.61);
+  justify-content: space-between;
+  &__logo {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+    cursor: pointer;
+    &-icon {
+      font-size: 52px;
+      margin: 7px;
     }
   }
-  &__searching-icon {
-    position: absolute;
-    left: 13%;
-    padding: 15px;
-    font-size: 36px;
-    color: white;
+  &__favourite {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    font-size: 16px;
     cursor: pointer;
+    &-img {
+      margin: 3px;
+    }
   }
 }
 </style>

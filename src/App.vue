@@ -1,17 +1,19 @@
 <template>
   <div id="app" class="page">
     <TheNavigation />
-    <TheMainContent />
+    <section tag="div" class="page__content">
+      <transition name="fade" mode="out-in" appear>
+        <router-view></router-view>
+      </transition>
+    </section>
   </div>
 </template>
 
 <script>
 import TheNavigation from "@/components/TheNavigation";
-import TheMainContent from "@/components/TheMainContent";
 export default {
   components: {
-    TheNavigation,
-    TheMainContent
+    TheNavigation
   }
 };
 </script>
@@ -21,13 +23,35 @@ body {
 }
 .page {
   margin: 0;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   &__nav {
     height: 15vh;
     background-color: rgba(43, 45, 66, 1);
   }
-  &__main {
+  &__content {
     min-height: 85vh;
     background-color: rgba(141, 153, 174, 1);
+  }
+}
+
+.fade {
+  &-enter {
+    opacity: 0;
+    &-active {
+      transition-duration: 0.5s;
+    }
+    &-to {
+      opacity: 1;
+    }
+  }
+  &-leave {
+    opacity: 1;
+    &-active {
+      transition-duration: 0.5s;
+    }
+    &-to {
+      opacity: 0;
+    }
   }
 }
 </style>
