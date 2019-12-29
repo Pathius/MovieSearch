@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link tag="section" class="card" :to="`/movie?id=${movie.id}`">
+    <router-link tag="div" class="card" :to="`/movie/${movie.id}`">
       <img
         :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
