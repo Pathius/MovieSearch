@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
+
 Vue.use(Vuex, VueAxios, axios)
 
 export default new Vuex.Store({
@@ -27,14 +29,14 @@ export default new Vuex.Store({
   actions: {
     searchByTitle: (context, payload) => {
       context.commit("resetMovies")
-      axios.get("https://api.themoviedb.org/3/search/movie?api_key=4a2556ad0cbaf0c9369adc89e3aaf7de&query=" + payload)
+      axios.get(`search/movie?api_key=${process.env.VUE_APP_API_KEY}&query=${payload}`)
         .then(response => {
           context.commit("setMovies", response.data.results)
         })
     },
     findExactMovie: (context, payload) => {
       context.commit("resetActualMovie")
-      axios.get(`https://api.themoviedb.org/3/movie/${payload}?api_key=4a2556ad0cbaf0c9369adc89e3aaf7de`)
+      axios.get(`movie/${payload}?api_key=${process.env.VUE_APP_API_KEY}`)
         .then(response => {
           context.commit("setActualMovie", response.data)
         })
