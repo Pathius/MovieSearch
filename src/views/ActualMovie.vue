@@ -1,5 +1,6 @@
 <template>
   <div class="movie" v-if="typeof movie === 'object' && movie.id">
+    <!-- This div will be only rendered if the movie object is correct -->
     <img
       :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 

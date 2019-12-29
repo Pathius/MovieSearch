@@ -24,6 +24,8 @@ export default {
     submit(title) {
       this.$store.dispatch("searchByTitle", title);
     },
+    // This function is called if user tries to submit empty input
+    // It prevents of sending API request with empty payload and returns movies to initial state
     resetMovies() {
       this.$store.commit("resetMovies");
     }

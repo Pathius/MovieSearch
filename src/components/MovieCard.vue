@@ -1,6 +1,7 @@
 <template>
   <div>
     <router-link tag="div" class="card" :to="`/movie/${movie.id}`">
+      <!-- If there's no image on API, "no-poster.jpg" will be loaded instead -->
       <img
         :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 

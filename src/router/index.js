@@ -25,6 +25,10 @@ const routes = [
     path: "/error",
     name: "error",
     component: () => import('@/views/Error.vue')
+  },
+  {
+    path: '/*',
+    redirect: '/error'
   }
 ]
 

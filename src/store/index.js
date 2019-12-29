@@ -28,19 +28,21 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    // Function called after submiting the searching input
+    // Takes input value as payload and returns results to data object
     searchByTitle: async ({ commit }, payload) => {
       commit("resetMovies")
-      console.log("Send")
       try {
         let { data } = await axios.get(`search/movie?api_key=${process.env.VUE_APP_API_KEY}&query=${payload}`)
         commit("setMovies", data.results)
       } catch (error) {
-        console.log("ERROR", error)
+        console.log("ERROR 404", error)
       }
     },
+    // Function called after entering ActualMovie component
+    // Takes movie id as a payload and returns results to data object
     findExactMovie: async ({ commit }, payload) => {
       commit("resetActualMovie")
-      console.log("Send exact")
       try {
         let { data } = await axios.get(`movie/${payload}?api_key=${process.env.VUE_APP_API_KEY}`)
         commit("setActualMovie", data)
