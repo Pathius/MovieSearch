@@ -5,7 +5,7 @@
         type="text"
         class="search__input"
         v-model="title"
-        @keypress.enter="submit(title)"
+        @keypress.enter="title ? submit(title) : resetMovies()"
         @focus="placeholder = ''"
         @blur="placeholder = 'Insert your movie title here'"
         :placeholder="placeholder"
@@ -23,6 +23,9 @@ export default {
   methods: {
     submit(title) {
       this.$store.dispatch("searchByTitle", title);
+    },
+    resetMovies() {
+      this.$store.commit("resetMovies");
     }
   }
 };
