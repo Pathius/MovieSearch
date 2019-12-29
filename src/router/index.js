@@ -16,10 +16,15 @@ const routes = [
     component: () => import('@/views/TheFavouriteMovies.vue')
   },
   {
-    path: "/movie",
+    path: "/movie/:id",
     name: "movie:id",
-    props: route => ({ id: route.query.id }),
+    props: route => ({ id: route.params.id }),
     component: () => import('@/views/ActualMovie.vue')
+  },
+  {
+    path: "/error",
+    name: "error",
+    component: () => import('@/views/Error.vue')
   }
 ]
 
