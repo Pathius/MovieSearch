@@ -2,12 +2,7 @@
   <div>
     <main class="page__main main">
       <TheSearchingInput class="main__search" />
-      <MovieCard
-        class="main__movie-card"
-        v-for="(movie, index) in movies"
-        :key="movie+index"
-        :movie="movie"
-      />
+      <MovieCard class="main__movie-card" v-for="movie in movies" :key="movie.id" :movie="movie" />
     </main>
   </div>
 </template>
