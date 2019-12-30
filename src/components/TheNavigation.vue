@@ -1,15 +1,25 @@
 <template>
   <div class="page__nav nav">
     <router-link tag="div" class="nav__logo" to="/">
-      <i class="nav__logo-icon fas fa-film"></i>
+      <TheMovieClip />
       <h1>MovieSearch</h1>
     </router-link>
     <router-link tag="div" class="nav__favourite" to="/favourite">
       <h3 class="nav__favourite-text">Favourite movies</h3>
-      <i class="nav__favourite-img fas fa-heart"></i>
+      <Favourite />
     </router-link>
   </div>
 </template>
+<script>
+import TheMovieClip from "./icons/TheMovieClip.vue";
+import Favourite from "./icons/Favourite.vue";
+export default {
+  components: {
+    TheMovieClip,
+    Favourite
+  }
+};
+</script>
 <style lang="scss">
 .nav {
   color: white;

@@ -10,16 +10,20 @@
         @blur="placeholder = 'Insert your movie title here'"
         :placeholder="placeholder"
       />
-      <i class="search__icon fas fa-search" @click="submit(title)"></i>
+      <TheSearch class="search__icon fas fa-search" @click="submit(title)" />
     </nav>
   </div>
 </template>
 <script>
+import TheSearch from "./icons/TheSearch.vue";
 export default {
   data: () => ({
     title: "",
     placeholder: "Insert your movie title here"
   }),
+  components: {
+    TheSearch
+  },
   methods: {
     submit(title) {
       this.$store.dispatch("searchByTitle", title);
@@ -42,8 +46,9 @@ export default {
     background-color: transparent;
     border: none;
     color: white;
-    border-bottom: 4px solid white;
-    font-size: 46px;
+    font-weight: 300;
+    border-bottom: 3px solid white;
+    font-size: 36px;
     text-align: center;
     &:focus {
       outline: none;
