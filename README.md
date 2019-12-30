@@ -1,24 +1,13 @@
-# movie-project
+# MovieSearch
+> Simple application made for searching movies
 
-## Project setup
-```
-npm install
-```
+Demo: work in progress
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Technology used:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* Vue.js
+* Vuex
+* VueRouter
+* Axios
+* SCSS
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
