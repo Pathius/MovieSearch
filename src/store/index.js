@@ -10,18 +10,21 @@ Vue.use(Vuex, VueAxios, axios)
 
 export default new Vuex.Store({
   state: {
+    loading: false,
     movies: [],
     actualMovie: {}
   },
   mutations: {
     resetMovies: (state) => {
       state.movies = []
+      state.loading = true
     },
     resetActualMovie: (state) => {
       state.actualMovie = {}
     },
     setMovies: (state, payload) => {
       state.movies = payload
+      state.loading = false
     },
     setActualMovie: (state, payload) => {
       state.actualMovie = payload
@@ -31,6 +34,7 @@ export default new Vuex.Store({
     // Function called after submiting the searching input
     // Takes input value as payload and returns results to data object
     searchByTitle: async ({ commit }, payload) => {
+
       commit("resetMovies")
       try {
         let { data } = await axios.get(`search/movie?api_key=${process.env.VUE_APP_API_KEY}&query=${payload}`)
