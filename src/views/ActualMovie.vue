@@ -20,6 +20,11 @@ export default {
   props: {
     id: String
   },
+  watch: {
+    "$route.params.id"() {
+      this.$store.dispatch("findExactMovie", this.$route.params.id);
+    }
+  },
   created() {
     this.$store.dispatch("findExactMovie", this.id);
   },
