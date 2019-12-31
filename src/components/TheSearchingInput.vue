@@ -7,7 +7,7 @@
         v-model="title"
         @keypress.enter="title ? submit(title) : resetMovies()"
         @focus="placeholder = ''"
-        @blur="placeholder = 'Insert your movie title here'"
+        @blur="placeholder = 'Search here'"
         :placeholder="placeholder"
       />
       <TheSearch class="search__icon fas fa-search" @click="submit(title)" />
@@ -19,7 +19,7 @@ import TheSearch from "./icons/TheSearch.vue";
 export default {
   data: () => ({
     title: "",
-    placeholder: "Insert your movie title here"
+    placeholder: "Search here"
   }),
   components: {
     TheSearch
@@ -37,19 +37,26 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "../scss/variables";
 .search {
   display: flex;
   justify-content: center;
   align-items: center;
   &__input {
-    width: 70%;
-    background-color: transparent;
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: $input-dark;
     border: none;
     color: white;
     font-weight: 300;
-    border-bottom: 3px solid white;
-    font-size: 36px;
+    font-size: 24px;
     text-align: center;
+    @media screen and (max-width: 640px) {
+      width: 70%;
+      font-size: 18px;
+      font-weight: 100;
+    }
     &:focus {
       outline: none;
     }
@@ -59,11 +66,15 @@ export default {
   }
   &__icon {
     position: absolute;
-    left: 18%;
+    left: 25%;
     padding: 15px;
-    font-size: 36px;
     color: white;
     cursor: pointer;
+    @media screen and (max-width: 640px) {
+      left: 10%;
+      padding: 20px;
+      margin-bottom: 4px;
+    }
   }
 }
 </style>

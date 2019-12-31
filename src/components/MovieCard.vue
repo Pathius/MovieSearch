@@ -20,11 +20,12 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "../scss/variables";
 .card {
-  background-color: rgba(43, 45, 66, 1);
+  background-color: $movie-card;
   width: 15vw;
-  height: 400px;
-  margin: 20px 2.5vw;
+  height: 350px;
+  margin: 40px 2.2vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -36,9 +37,10 @@ export default {
     width: 20vw;
     height: 450px;
     float: none;
+    margin-top: 0;
   }
   @media screen and (max-width: 1024px) {
-    width: 40vw;
+    width: 28vw;
     height: 450px;
     float: none;
   }
@@ -49,25 +51,21 @@ export default {
   }
   &__img {
     width: 100%;
-    height: 80%;
-    border-radius: 20px 20px 0 0;
+    height: 90%;
+    border-radius: 10px;
     box-sizing: border-box;
   }
   &__title {
+    width: 90%;
     display: flex;
-    align-items: center;
+    justify-content: center;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    height: 80px;
-    margin: auto;
+    margin-top: 5px;
   }
   &:hover {
     transform: scale(1.05);
-    background-color: rgb(53, 56, 85);
-    -webkit-box-shadow: 0px 0px 37px -6px rgba(43, 45, 66, 1);
-    -moz-box-shadow: 0px 0px 37px -6px rgba(43, 45, 66, 1);
-    box-shadow: 0px 0px 37px -6px rgb(58, 60, 82);
   }
 }
 </style>

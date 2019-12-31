@@ -4,10 +4,8 @@
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
-    width="65px"
-    height="65px"
     fill="white"
-    viewBox="0 0 277.446 400.446"
+    viewBox="0 10 270.446 350.446"
     style="enable-background:new 0 0 277.446 277.446;"
     xml:space="preserve"
   >
@@ -25,3 +23,9 @@
     />
   </svg>
 </template>
+<style scoped lang="scss">
+svg {
+  width: 55.4px;
+  height: 58.2px;
+}
+</style>

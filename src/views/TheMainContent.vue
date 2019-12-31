@@ -35,11 +35,7 @@ export default {
   }
 }
 .loading-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
   width: 100px;
-  transform: translate(-50%, -50%);
   height: 100px;
   border: 10px solid transparent;
 }

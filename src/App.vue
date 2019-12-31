@@ -18,19 +18,29 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "scss/variables";
 body {
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 .page {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
-  color: white;
+  color: $font-color;
   &__nav {
     height: 15vh;
-    background-color: rgba(43, 45, 66, 1);
+    background-color: $main-dark;
+    margin: 0;
+    @media screen and (max-width: 640px) {
+      height: 20vh;
+    }
   }
   &__content {
+    transition-duration: 0.4s;
     min-height: 85vh;
-    background-color: rgba(141, 153, 174, 1);
+    background-image: linear-gradient($main-dark, $main-light);
+    @media screen and (max-width: 640px) {
+      min-height: 80vh;
+    }
   }
 }
 
@@ -38,7 +48,7 @@ body {
   &-enter {
     opacity: 0;
     &-active {
-      transition-duration: 0.5s;
+      transition-duration: 0.6s;
     }
     &-to {
       opacity: 1;
@@ -47,7 +57,7 @@ body {
   &-leave {
     opacity: 1;
     &-active {
-      transition-duration: 0.5s;
+      transition-duration: 0.6s;
     }
     &-to {
       opacity: 0;

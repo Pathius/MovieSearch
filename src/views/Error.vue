@@ -22,6 +22,9 @@ export default {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  @media screen and (max-width: 640px) {
+    height: 70vh;
+  }
   &__messages {
     display: flex;
     flex-wrap: wrap;
@@ -33,6 +36,10 @@ export default {
       margin: 0;
       line-height: 120px;
       color: white;
+      @media screen and (max-width: 640px) {
+        font-size: 70px;
+        line-height: 50px;
+      }
     }
     &-text {
       width: 100%;
@@ -40,6 +47,9 @@ export default {
       margin: 0;
       text-transform: uppercase;
       font-weight: bold;
+      @media screen and (max-width: 640px) {
+        font-size: 28px;
+      }
     }
     &-button {
       display: flex;
@@ -51,6 +61,7 @@ export default {
       text-align: center;
       font-weight: bold;
       color: white;
+      border-radius: 10px;
       text-transform: uppercase;
       border: 3px solid white;
       font-size: 18px;
@@ -60,6 +71,12 @@ export default {
       &:hover {
         background-color: white;
         color: rgba(141, 153, 174, 1);
+      }
+      &:focus {
+        outline: 0;
+      }
+      @media screen and (max-width: 640px) {
+        width: 50%;
       }
     }
   }
