@@ -22,22 +22,24 @@ export default {
 body {
   margin: 0;
   -webkit-tap-highlight-color: transparent;
+  & *:focus {
+    outline: 0;
+  }
 }
 .page {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: $font-family;
   color: $font-color;
   &__nav {
     height: 15vh;
     background-color: $main-dark;
-    margin: 0;
     @media screen and (max-width: 640px) {
       height: 20vh;
     }
   }
   &__content {
-    transition-duration: 0.4s;
     min-height: 85vh;
     background-image: linear-gradient($main-dark, $main-light);
+    transition-duration: 0.4s;
     @media screen and (max-width: 640px) {
       min-height: 80vh;
     }

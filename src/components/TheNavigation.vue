@@ -44,9 +44,7 @@ export default {
     justify-content: center;
   }
   &__logo {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    @include flex-center();
     margin: 0 20px;
     text-align: center;
     cursor: pointer;
@@ -67,11 +65,9 @@ export default {
     }
   }
   &__navigation {
+    @include flex-center();
     list-style-type: none;
-    display: flex;
     margin-right: 20px;
-    justify-content: center;
-    align-items: center;
     font-size: 16px;
     cursor: pointer;
     &-element {

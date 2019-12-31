@@ -11,7 +11,11 @@
       <div>
         <h2 class="movie__title">{{movie.title}}</h2>
         <p class="movie__genres">{{movieGenres}}</p>|
+        <!-- movie.release is "year-month-day" format -->
         <p class="movie__release">{{movie.release_date.split('-')[0]}}</p>|
+        <!-- Calculates duration of movie, 
+        movie.number is passed as a number of minutes,
+        if there's less than hour, "0h" won't be showed-->
         <p class="movie__duration">
           {{Math.round(movie.runtime/60) > 0
           ? Math.round(movie.runtime/60)+"h"
@@ -45,6 +49,7 @@ export default {
       return this.$store.state.actualMovie;
     },
     movieGenres() {
+      // this.movie.genres is an array with seperate object for each genre
       let types = [];
       this.movie.genres.forEach(genre => {
         types.push(genre.name);

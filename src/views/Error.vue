@@ -7,28 +7,18 @@
     </div>
   </div>
 </template>
-<script>
-// import TheError from "@/components/icons/TheError.vue";
-export default {
-  // components: {
-  //   TheError
-  // }
-};
-</script>
 <style scoped lang="scss">
+@import "../scss/variables";
 .error {
+  @include flex-center();
   height: 85vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   @media screen and (max-width: 640px) {
     height: 70vh;
   }
   &__messages {
-    display: flex;
+    @include flex-center();
     flex-wrap: wrap;
-    justify-content: center;
     text-align: center;
     &-title {
       width: 100%;
@@ -52,13 +42,10 @@ export default {
       }
     }
     &-button {
-      display: flex;
-      justify-content: center;
+      @include flex-center();
       margin: 20px;
-      display: flex;
       width: 20%;
       height: 50px;
-      text-align: center;
       font-weight: bold;
       color: white;
       border-radius: 10px;
@@ -71,9 +58,6 @@ export default {
       &:hover {
         background-color: white;
         color: rgba(141, 153, 174, 1);
-      }
-      &:focus {
-        outline: 0;
       }
       @media screen and (max-width: 640px) {
         width: 50%;

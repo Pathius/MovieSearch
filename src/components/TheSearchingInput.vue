@@ -57,9 +57,6 @@ export default {
       font-size: 18px;
       font-weight: 100;
     }
-    &:focus {
-      outline: none;
-    }
     &::placeholder {
       color: white;
     }

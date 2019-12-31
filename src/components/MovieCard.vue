@@ -22,32 +22,25 @@ export default {
 <style scoped lang="scss">
 @import "../scss/variables";
 .card {
+  @include flex-center();
+  flex-wrap: wrap;
   background-color: $movie-card;
   width: 15vw;
   height: 350px;
   margin: 40px 2.2vw;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   border-radius: 20px;
   transition-duration: 0.6s;
   cursor: pointer;
   @media screen and (max-width: 1400px) {
     width: 20vw;
     height: 450px;
-    float: none;
     margin-top: 0;
   }
   @media screen and (max-width: 1024px) {
     width: 28vw;
-    height: 450px;
-    float: none;
   }
   @media screen and (max-width: 640px) {
     width: 80vw;
-    height: 450px;
-    float: none;
   }
   &__img {
     width: 100%;
@@ -56,9 +49,8 @@ export default {
     box-sizing: border-box;
   }
   &__title {
+    @include flex-center();
     width: 90%;
-    display: flex;
-    justify-content: center;
     text-align: center;
     font-size: 20px;
     font-weight: bold;

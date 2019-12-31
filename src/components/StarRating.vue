@@ -10,6 +10,7 @@ export default {
   },
   computed: {
     starPercentage() {
+      // this.rate is number in scale of 0 to 10
       return Math.round(this.rate) * 10;
     }
   }
