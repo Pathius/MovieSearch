@@ -1,7 +1,7 @@
 <template>
   <div>
+    <!-- This div will be only rendered if the movie object is correct -->
     <div class="movie" v-if="typeof movie === 'object' && movie.id">
-      <!-- This div will be only rendered if the movie object is correct -->
       <img
         :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
@@ -10,9 +10,16 @@
       />
       <div>
         <h2 class="movie__title">{{movie.title}}</h2>
+        <p class="movie__genres">{{movieGenres}}</p>|
+        <p class="movie__release">{{movie.release_date.split('-')[0]}}</p>|
+        <p class="movie__duration">
+          {{Math.round(movie.runtime/60) > 0
+          ? Math.round(movie.runtime/60)+"h"
+          : undefined}}
+          {{movie.runtime%60}}m
+        </p>
+        <StarRating :rate="movie.vote_average" />
         <p class="movie__desc">{{movie.overview}}</p>
-        <p class="movie__release">{{movie.release_date}}</p>
-        <p class="movie__voting">Rating: {{movie.vote_average}}/10</p>
       </div>
     </div>
     <LoadingSpinner class="loading-spinner" v-else />
@@ -20,6 +27,7 @@
 </template>
 <script>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import StarRating from "@/components/StarRating";
 export default {
   props: {
     id: String
@@ -35,10 +43,18 @@ export default {
   computed: {
     movie() {
       return this.$store.state.actualMovie;
+    },
+    movieGenres() {
+      let types = [];
+      this.movie.genres.forEach(genre => {
+        types.push(genre.name);
+      });
+      return types.join("/");
     }
   },
   components: {
-    LoadingSpinner
+    LoadingSpinner,
+    StarRating
   }
 };
 </script>
@@ -46,18 +62,57 @@ export default {
 .movie {
   height: 85vh;
   display: flex;
+  @media screen and (max-width: 1024px) {
+    flex-wrap: wrap;
+    height: inherit;
+    min-height: 85vh;
+    text-align: center;
+    padding-top: 60px;
+    justify-content: center;
+  }
   &__image {
     box-sizing: border-box;
     height: 100%;
     border-radius: 25px;
     padding: 20px;
+    @media screen and (max-width: 1024px) {
+      width: 60%;
+    }
+    @media screen and (max-width: 640px) {
+      width: 90%;
+    }
   }
   &__title {
     font-size: 42px;
+    margin: 0;
+    margin-top: 20px;
+    @media screen and (max-width: 768px) {
+      margin-top: 0;
+    }
+  }
+  &__genres {
+    display: inline-block;
+    margin: 0px;
+    margin: 5px 10px 0 0;
+  }
+  &__release {
+    display: inline-block;
+    margin: 0px;
+    margin: 5px 10px 0 10px;
+  }
+  &__duration {
+    display: inline-block;
+    margin: 0px;
+    margin: 5px 10px 0 10px;
   }
   &__desc {
     width: 80%;
     font-size: 20px;
+    @media screen and (max-width: 1024px) {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
+    }
   }
 }
 .loading-spinner {
