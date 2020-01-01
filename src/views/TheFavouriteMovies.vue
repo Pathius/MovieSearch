@@ -1,17 +1,37 @@
 <template>
   <div>
-    <section class>
-      <i class="fas fa-long-arrow-alt-left"></i>
-      <h2>Your favourite movies</h2>
+    <section class="favourite">
+      <h2 class="favourite__title">Your favourite movies</h2>
+      <MovieCard
+        class="favourite__movie-card"
+        v-for="movie in movies"
+        :key="movie.id"
+        :movie="movie"
+      />
     </section>
-    <MovieCard class="main__movie-card" />
   </div>
 </template>
 <script>
-import MovieCard from "@/components/MovieCard.vue";
+import MovieCard from "@/components/MovieCard";
 export default {
+  computed: {
+    movies() {
+      return this.$store.state.favouriteMovies;
+    }
+  },
   components: {
     MovieCard
   }
 };
 </script>
+<style scoped lang="scss">
+.favourite {
+  width: 100%;
+  text-align: center;
+  &__title {
+    margin-top: 0;
+    padding-top: 40px;
+    font-size: 32px;
+  }
+}
+</style>

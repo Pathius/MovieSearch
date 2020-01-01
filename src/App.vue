@@ -14,6 +14,16 @@ import TheNavigation from "@/components/TheNavigation";
 export default {
   components: {
     TheNavigation
+  },
+  created() {
+    this.$store.commit(
+      "setFavouriteMovies",
+      JSON.parse(localStorage.getItem("favouriteMovies"))
+    );
+    this.$store.commit(
+      "setFavouriteMoviesIds",
+      JSON.parse(localStorage.getItem("favouriteMovies"))
+    );
   }
 };
 </script>

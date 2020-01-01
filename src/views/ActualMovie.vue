@@ -24,6 +24,16 @@
         </p>
         <StarRating :rate="movie.vote_average" />
         <p class="movie__desc">{{movie.overview}}</p>
+        <button
+          class="movie__favourite-button"
+          @click="addToFavourite(movie)"
+          v-if="!favourite"
+        >add to favourites</button>
+        <button
+          class="movie__favourite-button-active"
+          @click="removeFromFavourites(movie.id)"
+          v-else
+        >remove from favourites</button>
       </div>
     </div>
     <LoadingSpinner class="loading-spinner" v-else />
@@ -55,6 +65,17 @@ export default {
         types.push(genre.name);
       });
       return types.join("/");
+    },
+    favourite() {
+      return this.$store.state.favouriteMoviesIds.includes(this.movie.id);
+    }
+  },
+  methods: {
+    addToFavourite(movie) {
+      this.$store.dispatch("addFavouriteMovies", movie);
+    },
+    removeFromFavourites(id) {
+      this.$store.dispatch("removeFavouriteMovie", id);
     }
   },
   components: {
@@ -64,6 +85,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "../scss/variables";
 .movie {
   height: 85vh;
   display: flex;
@@ -117,6 +139,30 @@ export default {
       box-sizing: border-box;
       width: 100%;
       padding: 10px;
+    }
+  }
+  &__favourite-button {
+    width: 20%;
+    height: 50px;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    text-transform: uppercase;
+    border: 3px solid white;
+    font-size: 18px;
+    background-color: transparent;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    @media screen and (max-width: 1024px) {
+      margin: 0 auto 20px auto;
+    }
+    @media screen and (max-width: 648px) {
+      width: 50%;
+    }
+    &-active {
+      @extend .movie__favourite-button;
+      background-color: white;
+      color: rgb(64, 69, 77);
     }
   }
 }
