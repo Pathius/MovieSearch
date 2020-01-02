@@ -88,7 +88,7 @@ export default new Vuex.Store({
       // Takes movie id as payload and and deletes the object with same id from localStorage 
       let movies = JSON.parse(localStorage.getItem("favouriteMovies"));
       let index = movies.findIndex(index => index.id === payload)
-      movies = movies.splice(0, index)
+      movies.splice(index, 1)
       localStorage.setItem("favouriteMovies", JSON.stringify(movies))
       commit("setFavouriteMovies", movies)
       commit("setFavouriteMoviesIds", movies)

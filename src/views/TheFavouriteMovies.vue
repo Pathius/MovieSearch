@@ -26,9 +26,12 @@ export default {
 </script>
 <style scoped lang="scss">
 .favourite {
-  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   text-align: center;
   &__title {
+    width: 100%;
     margin-top: 0;
     padding-top: 40px;
     font-size: 32px;
