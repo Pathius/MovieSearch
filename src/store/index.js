@@ -79,18 +79,18 @@ export default new Vuex.Store({
         console.log("ERROR", error)
       }
     },
-    addFavouriteMovies: ({ commit }, payload) => {
+    addFavouriteMovies: ({ commit, state }, payload) => {
       // Function called after clicking "favourite button" in ActualMovie component if movie isn't favourite
       // Takes movie object as payload and adds it to localStorage 
       let movies = JSON.parse(localStorage.getItem("favouriteMovies"));
       // Checks if there's any favourite movies existing in localStorage
       // if not, payload will be placed in array
-      if (movies) {
+      if (movies && !state.favouriteMoviesIds.includes(payload.id)) {
         movies.push(payload);
-        localStorage.setItem("favouriteMovies", JSON.stringify(movies));
       } else {
-        localStorage.setItem("favouriteMovies", JSON.stringify([payload]));
+        movies = [payload]
       }
+      localStorage.setItem("favouriteMovies", JSON.stringify(movies));
       commit("setFavouriteMovies", movies)
       commit("setFavouriteMoviesIds", movies)
     },

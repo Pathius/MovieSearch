@@ -150,6 +150,10 @@ export default {
     font-size: 18px;
     background-color: transparent;
     transition-duration: 0.4s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     cursor: pointer;
     @media screen and (max-width: 1024px) {
       margin: 0 auto 20px auto;
