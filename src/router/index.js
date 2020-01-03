@@ -22,6 +22,16 @@ const routes = [
     component: () => import('@/views/ActualMovie.vue')
   },
   {
+    path: "/upcoming",
+    name: "upcoming",
+    component: () => import('@/views/TheUpcomingMovies.vue')
+  },
+  {
+    path: "/popular",
+    name: "popular",
+    component: () => import('@/views/ThePopularMovies.vue')
+  },
+  {
     path: "/error",
     name: "error",
     component: () => import('@/views/Error.vue')
