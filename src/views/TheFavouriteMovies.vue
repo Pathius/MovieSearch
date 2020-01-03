@@ -30,6 +30,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
+  padding-bottom: 60px;
   &__title {
     width: 100%;
     margin-top: 0;

@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <svg
     version="1.1"
     id="Capa_1"

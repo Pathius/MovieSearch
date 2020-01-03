@@ -4,13 +4,13 @@
       <input
         type="text"
         class="search__input"
-        v-model="title"
+        v-model.trim="title"
         @keypress.enter="title ? submit(title) : resetMovies()"
         @focus="placeholder = ''"
         @blur="placeholder = 'Search here'"
         :placeholder="placeholder"
       />
-      <TheSearch class="search__icon fas fa-search" @click="submit(title)" />
+      <TheSearch class="search__icon fas fa-search" @click="title ? submit(title) : resetMovies()" />
     </nav>
   </div>
 </template>
@@ -32,6 +32,7 @@ export default {
     // It prevents of sending API request with empty payload and returns movies to initial state
     resetMovies() {
       this.$store.commit("resetMovies");
+      this.$store.state.loading = false;
     }
   }
 };

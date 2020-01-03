@@ -11,8 +11,11 @@ Vue.use(Vuex, VueAxios, axios)
 export default new Vuex.Store({
   state: {
     loading: false,
+    searched: false,
     movies: [],
     favouriteMovies: [],
+    upcomingMovies: [],
+    popularMovies: [],
     favouriteMoviesIds: [],
     actualMovie: {},
   },
@@ -20,6 +23,7 @@ export default new Vuex.Store({
     resetMovies: (state) => {
       state.movies = []
       state.loading = true
+      state.searched = false
     },
     resetActualMovie: (state) => {
       state.actualMovie = {}
@@ -27,6 +31,7 @@ export default new Vuex.Store({
     setMovies: (state, payload) => {
       state.movies = payload
       state.loading = false
+      state.searched = true
     },
     setActualMovie: (state, payload) => {
       state.actualMovie = payload
@@ -37,11 +42,17 @@ export default new Vuex.Store({
     setFavouriteMoviesIds: (state, payload) => {
       if (payload) {
         let ids = []
-        payload.forEach(movie => {
+        for (let movie of payload) {
           ids.push(movie.id)
-        })
+        }
         state.favouriteMoviesIds = ids
       }
+    },
+    setUpcomingMovies: (state, payload) => {
+      state.upcomingMovies = payload
+    },
+    setPopularMovies: (state, payload) => {
+      state.popularMovies = payload
     }
   },
   actions: {
@@ -92,6 +103,22 @@ export default new Vuex.Store({
       localStorage.setItem("favouriteMovies", JSON.stringify(movies))
       commit("setFavouriteMovies", movies)
       commit("setFavouriteMoviesIds", movies)
-    }
+    },
+    getUpcomingMovies: async ({ commit }) => {
+      try {
+        let { data } = await axios.get(`movie/upcoming?api_key=${process.env.VUE_APP_API_KEY}&language=en-US`)
+        commit("setUpcomingMovies", data.results)
+      } catch (error) {
+        console.log("ERROR 404", error)
+      }
+    },
+    getPopularMovies: async ({ commit }) => {
+      try {
+        let { data } = await axios.get(`movie/popular?api_key=${process.env.VUE_APP_API_KEY}`)
+        commit("setPopularMovies", data.results)
+      } catch (error) {
+        console.log("ERROR 404", error)
+      }
+    },
   },
 })

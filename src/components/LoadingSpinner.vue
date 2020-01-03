@@ -1,12 +1,15 @@
-<template>
+<template functional>
   <div>
     <div class="spinner"></div>
   </div>
 </template>
-<style scoped lang="scss">
+<style  lang="scss">
 .spinner {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 8px solid transparent;
   border-top-color: white;
@@ -15,10 +18,10 @@
 }
 @keyframes loading {
   from {
-    transform: rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 </style>

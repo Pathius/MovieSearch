@@ -1,27 +1,48 @@
 <template>
   <div>
-    <router-link tag="div" class="card" :to="`/movie/${movie.id}`">
-      <!-- If there's no image on API, "no-poster.jpg" will be loaded instead -->
-      <img
-        :src="movie.poster_path ?
-        'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
-        require('../assets/no-poster.jpg')"
-        class="card__img"
-      />
+    <router-link
+      tag="div"
+      class="card"
+      :to="`/movie/${movie.id}`"
+      v-lazyLoad="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+    >
+      <LoadingSpinner />
       <h5 class="card__title">{{movie.title}}</h5>
     </router-link>
   </div>
 </template>
 <script>
+import LoadingSpinner from "./LoadingSpinner.vue";
 export default {
   props: {
     movie: Object
+  },
+  directives: {
+    lazyLoad: {
+      bind(el, binding, VNode) {
+        const img = new Image();
+        if (VNode.context.$props.movie.poster_path) {
+          img.src = binding.value;
+        } else {
+          img.src = require("../assets/no-poster.jpg");
+        }
+        img.classList.add("card__img");
+        img.onload = () => {
+          el.removeChild(el.children[0]);
+          el.prepend(img);
+        };
+      }
+    }
+  },
+  components: {
+    LoadingSpinner
   }
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 @import "../scss/variables";
 .card {
+  position: relative;
   @include flex-center();
   flex-wrap: wrap;
   background-color: $movie-card;
@@ -54,7 +75,8 @@ export default {
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    margin-top: 5px;
+    position: absolute;
+    top: 90%;
   }
   &:hover {
     transform: scale(1.05);

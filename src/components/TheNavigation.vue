@@ -8,13 +8,37 @@
       </h1>
     </router-link>
     <ul class="nav__navigation">
-      <router-link tag="li" class="nav__navigation-element" to="/upcoming">
+      <router-link
+        tag="li"
+        class="nav__navigation-element"
+        to="/"
+        active-class="nav__navigation-element-active"
+        exact
+      >
+        <h3 class="nav__navigation-element-text">Home</h3>
+      </router-link>
+      <router-link
+        tag="li"
+        class="nav__navigation-element"
+        to="/upcoming"
+        active-class="nav__navigation-element-active"
+      >
         <h3 class="nav__navigation-element-text">Upcoming</h3>
       </router-link>
-      <router-link tag="li" class="nav__navigation-element" to="/popular">
+      <router-link
+        tag="li"
+        class="nav__navigation-element"
+        to="/popular"
+        active-class="nav__navigation-element-active"
+      >
         <h3 class="nav__navigation-element-text">Popular</h3>
       </router-link>
-      <router-link tag="li" class="nav__navigation-element" to="/favourite">
+      <router-link
+        tag="li"
+        class="nav__navigation-element"
+        to="/favourite"
+        active-class="nav__navigation-element-active"
+      >
         <h3 class="nav__navigation-element-text">Favourite</h3>
       </router-link>
     </ul>
@@ -29,6 +53,7 @@ export default {
   methods: {
     initialState() {
       this.$store.state.movies = [];
+      this.$store.state.searched = false;
     }
   }
 };
@@ -69,11 +94,20 @@ export default {
     list-style-type: none;
     margin-right: 20px;
     font-size: 16px;
-    cursor: pointer;
     &-element {
       margin: 0 20px;
+      cursor: pointer;
+      &-active {
+        color: $accent-color;
+      }
       &-text {
         margin: 0;
+        @media screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+        @media screen and (max-width: 480px) {
+          font-size: 14px;
+        }
       }
       @media screen and (max-width: 768px) {
         margin: 0 10px;

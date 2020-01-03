@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- This div will be only rendered if the movie object is correct -->
-    <div class="movie" v-if="typeof movie === 'object' && movie.id">
+    <div class="movie" v-if="movie && movie.id">
       <img
         :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
@@ -16,12 +16,7 @@
         <!-- Calculates duration of movie, 
         movie.number is passed as a number of minutes,
         if there's less than hour, "0h" won't be showed-->
-        <p class="movie__duration">
-          {{Math.round(movie.runtime/60) > 0
-          ? Math.round(movie.runtime/60)+"h"
-          : undefined}}
-          {{movie.runtime%60}}m
-        </p>
+        <p class="movie__duration">{{movieDuration}}</p>
         <StarRating :rate="movie.vote_average" />
         <p class="movie__desc">{{movie.overview}}</p>
         <button
@@ -47,12 +42,12 @@ export default {
     id: String
   },
   watch: {
-    "$route.params.id"() {
-      this.$store.dispatch("findExactMovie", this.$route.params.id);
+    "$route.params.id": {
+      immediate: true,
+      handler() {
+        this.$store.dispatch("findExactMovie", this.$route.params.id);
+      }
     }
-  },
-  created() {
-    this.$store.dispatch("findExactMovie", this.id);
   },
   computed: {
     movie() {
@@ -60,14 +55,17 @@ export default {
     },
     movieGenres() {
       // this.movie.genres is an array with seperate object for each genre
-      let types = [];
-      this.movie.genres.forEach(genre => {
-        types.push(genre.name);
-      });
-      return types.join("/");
+      return this.movie.genres.map(genre => genre.name).join("/");
     },
     favourite() {
       return this.$store.state.favouriteMoviesIds.includes(this.movie.id);
+    },
+    movieDuration() {
+      return `${
+        Math.round(this.movie.runtime / 60) > 0
+          ? Math.round(this.movie.runtime / 60) + "h"
+          : ""
+      }   ${this.movie.runtime % 60}m`;
     }
   },
   methods: {
@@ -142,7 +140,7 @@ export default {
     }
   }
   &__favourite-button {
-    width: 20%;
+    width: 200px;
     height: 50px;
     font-weight: bold;
     color: white;

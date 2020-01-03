@@ -24,6 +24,8 @@ export default {
       "setFavouriteMoviesIds",
       JSON.parse(localStorage.getItem("favouriteMovies"))
     );
+    this.$store.dispatch("getUpcomingMovies");
+    this.$store.dispatch("getPopularMovies");
   }
 };
 </script>

@@ -2,8 +2,14 @@
   <div>
     <main class="page__main main">
       <TheSearchingInput class="main__search" />
-      <MovieCard class="main__movie-card" v-for="movie in movies" :key="movie.id" :movie="movie" />
-      <LoadingSpinner v-if="!movies.length && $store.state.loading" class="loading-spinner" />
+      <MovieCard
+        class="main__movie-card"
+        v-for="(movie,index) in movies"
+        :key="index"
+        :movie="movie"
+      />
+      <LoadingSpinner v-if="!movies.length && $store.state.loading" class="main__loading-spinner" />
+      <h3 v-if="!movies.length && !$store.state.loading && $store.state.searched">No movies found :(</h3>
     </main>
   </div>
 </template>
@@ -29,14 +35,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding-bottom: 100px;
   &__search {
     width: 100%;
     margin: 20px 0 60px 0;
   }
-}
-.loading-spinner {
-  width: 100px;
-  height: 100px;
-  border: 10px solid transparent;
 }
 </style>
