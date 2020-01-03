@@ -1,7 +1,7 @@
 # MovieSearch
 > Simple application made for searching movies
 
-Demo: work in progress
+Demo: https://heuristic-montalcini-0b1424.netlify.com
 
 ## Technology used:
 
