@@ -26,6 +26,7 @@ export default new Vuex.Store({
       state.searched = false
     },
     resetActualMovie: (state) => {
+      state.loading = true
       state.actualMovie = {}
     },
     setMovies: (state, payload) => {
@@ -35,17 +36,16 @@ export default new Vuex.Store({
     },
     setActualMovie: (state, payload) => {
       state.actualMovie = payload
+      state.loading = false
     },
     setFavouriteMovies: (state, payload) => {
-      state.favouriteMovies = payload
-    },
-    setFavouriteMoviesIds: (state, payload) => {
       if (payload) {
         let ids = []
         for (let movie of payload) {
           ids.push(movie.id)
         }
         state.favouriteMoviesIds = ids
+        state.favouriteMovies = payload
       }
     },
     setUpcomingMovies: (state, payload) => {
@@ -102,7 +102,6 @@ export default new Vuex.Store({
       movies.splice(index, 1)
       localStorage.setItem("favouriteMovies", JSON.stringify(movies))
       commit("setFavouriteMovies", movies)
-      commit("setFavouriteMoviesIds", movies)
     },
     getUpcomingMovies: async ({ commit }) => {
       try {

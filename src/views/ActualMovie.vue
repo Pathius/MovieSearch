@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- This div will be only rendered if the movie object is correct -->
-    <div class="movie" v-if="movie && movie.id">
+    <div class="movie" v-if="movie.constructor === Object && !isLoading">
       <img
         :src="movie.poster_path ?
         'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
@@ -66,6 +66,9 @@ export default {
           ? Math.round(this.movie.runtime / 60) + "h"
           : ""
       }   ${this.movie.runtime % 60}m`;
+    },
+    isLoading() {
+      return this.$store.state.loading;
     }
   },
   methods: {
