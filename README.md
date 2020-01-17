@@ -5,6 +5,8 @@ Demo: https://heuristic-montalcini-0b1424.netlify.com
 
 ## Release History
 
+* 0.2.1
+    * First authorization update
 * 0.1.0
     * The first proper release
 
@@ -14,5 +16,7 @@ Demo: https://heuristic-montalcini-0b1424.netlify.com
 * Vuex
 * VueRouter
 * Axios
+* Vuelidate
 * SCSS
+* Firebase
 
