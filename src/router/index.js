@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,7 +12,10 @@ const routes = [
   {
     path: "/favourite",
     name: "favourite",
-    component: () => import('@/views/TheFavouriteMovies.vue')
+    component: () => import('@/views/TheFavouriteMovies.vue'),
+    beforeEnter: (to, from, next) => {
+      localStorage.getItem("token") ? next() : next('/')
+    }
   },
   {
     path: "/movie/:id",
@@ -30,6 +32,14 @@ const routes = [
     path: "/popular",
     name: "popular",
     component: () => import('@/views/ThePopularMovies.vue')
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import('@/views/TheRegister.vue'),
+    beforeEnter: (to, from, next) => {
+      !(localStorage.getItem("token")) ? next() : next('/')
+    }
   },
   {
     path: "/error",

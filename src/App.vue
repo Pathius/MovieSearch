@@ -6,26 +6,44 @@
         <router-view></router-view>
       </transition>
     </section>
+    <transition name="fade" mode="out-in">
+      <div v-if="showModal" class="page__opacity" @click="closeModal" key="opacity"></div>
+    </transition>
+    <transition name="fade" mode="out-in">
+      <TheLoginModal v-if="showModal" class="page__modal" key="modal" />
+    </transition>
   </div>
 </template>
 
 <script>
+import TheLoginModal from "@/components/TheLoginModal";
 import TheNavigation from "@/components/TheNavigation";
 export default {
   components: {
-    TheNavigation
+    TheNavigation,
+    TheLoginModal
   },
   created() {
     this.$store.commit(
       "setFavouriteMovies",
       JSON.parse(localStorage.getItem("favouriteMovies"))
     );
-    this.$store.commit(
-      "setFavouriteMoviesIds",
-      JSON.parse(localStorage.getItem("favouriteMovies"))
-    );
     this.$store.dispatch("getUpcomingMovies");
     this.$store.dispatch("getPopularMovies");
+    this.$store.commit(
+      "checkIfLogged",
+      JSON.parse(localStorage.getItem("token"))
+    );
+  },
+  computed: {
+    showModal() {
+      return this.$store.state.movies.showModal;
+    }
+  },
+  methods: {
+    closeModal() {
+      this.$store.commit("closeModal");
+    }
   }
 };
 </script>
@@ -55,6 +73,19 @@ body {
     @media screen and (max-width: 640px) {
       min-height: 80vh;
     }
+  }
+  &__opacity {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.315);
+  }
+  &__modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 

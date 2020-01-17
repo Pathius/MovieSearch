@@ -3,7 +3,7 @@
     <div class="spinner"></div>
   </div>
 </template>
-<style  lang="scss">
+<style lang="scss">
 .spinner {
   position: absolute;
   top: 50%;

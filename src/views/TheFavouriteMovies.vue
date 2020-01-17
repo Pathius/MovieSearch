@@ -16,7 +16,7 @@ import MovieCard from "@/components/MovieCard";
 export default {
   computed: {
     movies() {
-      return this.$store.state.favouriteMovies;
+      return this.$store.state.movies.favouriteMovies;
     }
   },
   components: {

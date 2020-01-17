@@ -13,9 +13,6 @@
         <p class="movie__genres">{{movieGenres}}</p>|
         <!-- movie.release is "year-month-day" format -->
         <p class="movie__release">{{movie.release_date.split('-')[0]}}</p>|
-        <!-- Calculates duration of movie, 
-        movie.number is passed as a number of minutes,
-        if there's less than hour, "0h" won't be showed-->
         <p class="movie__duration">{{movieDuration}}</p>
         <StarRating :rate="movie.vote_average" />
         <p class="movie__desc">{{movie.overview}}</p>
@@ -51,16 +48,21 @@ export default {
   },
   computed: {
     movie() {
-      return this.$store.state.actualMovie;
+      return this.$store.state.movies.actualMovie;
     },
     movieGenres() {
       // this.movie.genres is an array with seperate object for each genre
       return this.movie.genres.map(genre => genre.name).join("/");
     },
     favourite() {
-      return this.$store.state.favouriteMoviesIds.includes(this.movie.id);
+      return this.$store.state.movies.favouriteMoviesIds.includes(
+        this.movie.id
+      );
     },
     movieDuration() {
+      //   Calculates duration of movie,
+      //   movie.number is passed as a number of minutes,
+      //   if there's less than hour, "0h" won't be showed
       return `${
         Math.round(this.movie.runtime / 60) > 0
           ? Math.round(this.movie.runtime / 60) + "h"
@@ -68,7 +70,7 @@ export default {
       }   ${this.movie.runtime % 60}m`;
     },
     isLoading() {
-      return this.$store.state.loading;
+      return this.$store.state.movies.loading;
     }
   },
   methods: {

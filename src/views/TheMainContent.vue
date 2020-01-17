@@ -20,7 +20,7 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 export default {
   computed: {
     movies() {
-      return this.$store.state.movies;
+      return this.$store.state.movies.movies;
     }
   },
   components: {

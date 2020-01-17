@@ -32,7 +32,7 @@ export default {
     // It prevents of sending API request with empty payload and returns movies to initial state
     resetMovies() {
       this.$store.commit("resetMovies");
-      this.$store.state.loading = false;
+      this.$store.state.movies.loading = false;
     }
   }
 };
