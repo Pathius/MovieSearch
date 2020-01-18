@@ -1,6 +1,6 @@
 <template>
   <div class="error">
-    <p>Error. Try again!</p>
+    <slot></slot>
   </div>
 </template>
 <style scoped lang="scss">
@@ -11,7 +11,7 @@
   width: 300px;
   font-weight: bold;
   height: 40px;
-  font-size: 24px;
+  font-size: 18px;
   border-radius: 40px;
   border: 2px solid red;
   box-sizing: border-box;

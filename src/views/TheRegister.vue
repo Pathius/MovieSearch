@@ -5,7 +5,7 @@
       <input
         type="text"
         class="login__input"
-        v-model="email"
+        v-model.trim="email"
         @input="$v.email.$model = email"
         :style="!$v.email.$dirty ? 
         null : 
@@ -13,6 +13,7 @@
         'border: 1px solid green' : 
         'border: 1px solid red'"
         @focus="emailPlaceholder = ''"
+        @blur="emailPlaceholder = 'Email'"
         :placeholder="emailPlaceholder"
       />
       <CorrectIcon v-if="$v.email.$dirty && !$v.email.$invalid" class="login__icon" />
@@ -22,7 +23,7 @@
       <input
         type="password"
         class="login__input"
-        v-model="password"
+        v-model.trim="password"
         @input="$v.password.$model = password"
         :style="!$v.password.$dirty ? 
         null : 
@@ -40,7 +41,7 @@
       <input
         type="password"
         class="login__input"
-        v-model="repeatPassword"
+        v-model.trim="repeatPassword"
         @input="$v.repeatPassword.$model = repeatPassword"
         :style="!$v.repeatPassword.$dirty ? 
         null : 
@@ -64,7 +65,7 @@
       @click="register"
     >Register</button>
     <LoadingSpinner class="login__loading" v-if="loading" />
-    <AuthError class="login__error" v-if="error" />
+    <AuthError class="login__error" v-if="error">This email is already used!</AuthError>
   </div>
 </template>
 <script>
@@ -220,11 +221,13 @@ export default {
     &-disabled {
       @extend .login__button;
       background-color: white;
-      color: black;
-      opacity: 20%;
+      color: rgb(51, 51, 51);
+      background-color: $button-disabled;
+      border-color: $button-disabled;
       cursor: not-allowed;
       &:hover {
-        color: black;
+        color: rgb(51, 51, 51);
+        background-color: $button-disabled;
       }
     }
   }

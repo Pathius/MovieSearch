@@ -19,12 +19,12 @@
         <button
           class="movie__favourite-button"
           @click="addToFavourite(movie)"
-          v-if="!favourite"
+          v-if="!favourite && logged"
         >add to favourites</button>
         <button
           class="movie__favourite-button-active"
           @click="removeFromFavourites(movie.id)"
-          v-else
+          v-else-if="logged"
         >remove from favourites</button>
       </div>
     </div>
@@ -58,6 +58,9 @@ export default {
       return this.$store.state.movies.favouriteMoviesIds.includes(
         this.movie.id
       );
+    },
+    logged() {
+      return this.$store.state.auth.userId && this.$store.state.auth.token;
     },
     movieDuration() {
       //   Calculates duration of movie,

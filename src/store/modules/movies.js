@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from '@/router/index.js'
+import auth from './auth'
+import moviesAxios from '@/axios/moviesAxios.js'
+import databaseAxios from '@/axios/databaseAxios.js'
 
-const moviesAxios = axios.create({
-    baseURL: 'https://api.themoviedb.org/3/'
-})
 
 Vue.use(Vuex, VueAxios, moviesAxios)
 
@@ -27,6 +26,7 @@ export default {
             state.movies = []
             state.loading = true
             state.searched = false
+            console.log(auth);
         },
         resetActualMovie: (state) => {
             state.loading = true
@@ -42,14 +42,13 @@ export default {
             state.loading = false
         },
         setFavouriteMovies: (state, payload) => {
-            if (payload) {
-                let ids = []
-                for (let movie of payload) {
-                    ids.push(movie.id)
-                }
-                state.favouriteMoviesIds = ids
-                state.favouriteMovies = payload
+            let ids = []
+            for (let movie of payload) {
+                ids.push(movie.id)
             }
+
+            state.favouriteMovies = payload
+            state.favouriteMoviesIds = ids
         },
         setUpcomingMovies: (state, payload) => { state.upcomingMovies = payload },
         setPopularMovies: (state, payload) => { state.popularMovies = payload },
@@ -65,7 +64,7 @@ export default {
                 let { data } = await moviesAxios.get(`search/movie?api_key=${process.env.VUE_APP_MOVIE_API_KEY}&query=${payload}`)
                 commit("setMovies", data.results)
             } catch (error) {
-                console.log("ERROR 404", error)
+                console.log("SEARCHING MOVIE ERROR", error)
             }
         },
         // Function called after entering ActualMovie component
@@ -77,48 +76,62 @@ export default {
                 commit("setActualMovie", data)
             } catch (error) {
                 router.push('/error')
-                console.log("ERROR", error)
+                console.log("ACTUAL MOVIE ERROR", error)
             }
         },
-        addFavouriteMovies: ({ commit, state }, payload) => {
-            // Function called after clicking "favourite button" in ActualMovie component if movie isn't favourite
-            // Takes movie object as payload and adds it to localStorage 
-            let movies = JSON.parse(localStorage.getItem("favouriteMovies"));
-            // Checks if there's any favourite movies existing in localStorage
-            // if not, payload will be placed in array
-            if (movies && !state.favouriteMoviesIds.includes(payload.id)) {
-                movies.push(payload);
-            } else {
-                movies = [payload]
+        // Function called after clicking "favourite button" in ActualMovie component if movie is not favourite
+        // Takes movie object as payload, push it into state and adds on database
+        addFavouriteMovies: async ({ state }, payload) => {
+            try {
+                state.favouriteMovies.push(payload)
+                state.favouriteMoviesIds.push(payload.id)
+                await databaseAxios.put(`${auth.state.userId}/movies/${payload.id}.json`, payload)
+            } catch (error) {
+                console.log("ADD TO FAVOURITE ERROR", error);
             }
-            localStorage.setItem("favouriteMovies", JSON.stringify(movies));
-            commit("setFavouriteMovies", movies)
-            commit("setFavouriteMoviesIds", movies)
         },
-        removeFavouriteMovie: ({ commit }, payload) => {
-            // Function called after clicking "favourite button" in ActualMovie component if movie is favourite
-            // Takes movie id as payload and and deletes the object with same id from localStorage 
-            let movies = JSON.parse(localStorage.getItem("favouriteMovies"));
-            let index = movies.findIndex(index => index.id === payload)
-            movies.splice(index, 1)
-            localStorage.setItem("favouriteMovies", JSON.stringify(movies))
-            commit("setFavouriteMovies", movies)
+        // Function called after clicking "favourite button" in ActualMovie component if movie is favourite
+        // Takes movie id as payload and deletes the object with same id from database and state
+        removeFavouriteMovie: async ({ state }, payload) => {
+            try {
+                let index = state.favouriteMovies.findIndex(index => index.id === payload)
+                let idIndex = state.favouriteMoviesIds.findIndex(index => index === payload)
+                state.favouriteMovies.splice(index, 1)
+                state.favouriteMoviesIds.splice(idIndex, 1)
+                await databaseAxios.delete(`${auth.state.userId}/movies/${payload}.json`)
+            } catch (error) {
+                console.log("REMOVE FROM FAVOURITE ERROR", error);
+            }
         },
+        // Function called after login or refreshing/opening app with token in localStorage
+        // Gets movies stored in database using userId and then adds them into state
+        getFavouriteMovies: async ({ commit }) => {
+            try {
+                let response = await databaseAxios.get(`${auth.state.userId}.json`)
+                // response.data.movies is an object with other objects, it has to be converted into array
+                commit('setFavouriteMovies', Object.keys(response.data.movies).map(i => response.data.movies[i]))
+            } catch (error) {
+                console.log("GET MOVIES FROM DATABASE ERROR", error);
+            }
+        },
+        // Function called after refreshing/opening app
+        // Gets upcoming movies from API and adds them into state
         getUpcomingMovies: async ({ commit }) => {
             try {
                 let { data } = await moviesAxios.get(`movie/upcoming?api_key=${process.env.VUE_APP_MOVIE_API_KEY}&language=en-US`)
                 commit("setUpcomingMovies", data.results)
-
             } catch (error) {
-                console.log("ERROR 404", error)
+                console.log("GET UPCOMING MOVIES ERROR", error)
             }
         },
+        // Function called after refreshing/opening app
+        // Gets popular movies from API and adds them into state
         getPopularMovies: async ({ commit }) => {
             try {
                 let { data } = await moviesAxios.get(`movie/popular?api_key=${process.env.VUE_APP_MOVIE_API_KEY}`)
                 commit("setPopularMovies", data.results)
             } catch (error) {
-                console.log("ERROR 404", error)
+                console.log("GET POPULAR MOVIES ERROR", error)
             }
         },
     },

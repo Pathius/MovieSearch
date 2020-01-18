@@ -25,15 +25,14 @@ export default {
   },
   created() {
     this.$store.commit(
-      "setFavouriteMovies",
-      JSON.parse(localStorage.getItem("favouriteMovies"))
-    );
-    this.$store.dispatch("getUpcomingMovies");
-    this.$store.dispatch("getPopularMovies");
-    this.$store.commit(
       "checkIfLogged",
       JSON.parse(localStorage.getItem("token"))
     );
+    this.$store.dispatch("getUpcomingMovies");
+    this.$store.dispatch("getPopularMovies");
+    if (localStorage.getItem("token")) {
+      this.$store.dispatch("getFavouriteMovies");
+    }
   },
   computed: {
     showModal() {

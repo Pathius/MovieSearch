@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from '@/router/index.js'
+import movies from './movies'
+import authAxios from '@/axios/authAxios.js'
+import databaseAxios from '@/axios/databaseAxios.js'
 
-const authAxios = axios.create({
-    baseURL: 'https://identitytoolkit.googleapis.com/v1/'
-})
-
-Vue.use(Vuex, VueAxios, authAxios)
+Vue.use(Vuex, VueAxios)
 
 export default {
     state: {
@@ -26,6 +24,8 @@ export default {
         logout: state => {
             state.token = ""
             state.userId = ""
+            movies.state.favouriteMovies = []
+            movies.state.favouriteMoviesIds = []
             localStorage.removeItem('token')
             if (router.currentRoute.path != '/') { router.replace('/') }
         },
@@ -49,12 +49,14 @@ export default {
         },
     },
     actions: {
-        async login({ state, commit }, { loginPayload, stayLogged }) {
+        // Function called after submiting the login form
+        // Takes input values as payload and returns results to data object
+        async login({ state, commit, dispatch }, { loginPayload, stayLogged }) {
             state.loginIsLoading = true
             try {
                 let { data } = await authAxios.post(`accounts:signInWithPassword?key=${process.env.VUE_APP_AUTH_API_KEY}`, loginPayload)
-                const expire = new Date()
                 // IF "STAY LOGGED" CHECKBOX WAS CHECKED USER WILL STAY LOGGED FOR 48 HOURS
+                const expire = new Date()
                 if (stayLogged) {
                     expire.setHours(expire.getHours() + 48);
                 } else {
@@ -62,6 +64,7 @@ export default {
                 }
                 data = { ...data, expire }
                 commit('setUser', data)
+                dispatch('getFavouriteMovies')
                 commit('closeModal')
             } catch (error) {
                 console.log("LOGIN ERROR", error)
@@ -69,10 +72,17 @@ export default {
             }
             state.loginIsLoading = false
         },
+        // Function called after submiting the register form
+        // Takes input values as payload and returns results to data object
         async register({ state, commit }, payload) {
             state.registerIsLoading = true
             try {
+                // ADDING USER TO AUTH DATABASE
                 let { data } = await authAxios.post(`accounts:signUp?key=${process.env.VUE_APP_AUTH_API_KEY}`, payload)
+                // ADDING USER TO A DATABASE
+                await databaseAxios.put(`${data.localId}.json`, {
+                    email: payload.email,
+                })
                 // AFTER BEING REGISTER USER WILL STAY LOGGED ONLY FOR 1 HOUR
                 const expire = new Date()
                 expire.setHours(expire.getHours() + 1);

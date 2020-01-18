@@ -24,7 +24,7 @@
       <input
         type="password"
         class="login__input"
-        v-model="password"
+        v-model.trim="password"
         @input="$v.password.$model = password"
         :style="!$v.password.$dirty ? 
         null : 
@@ -53,7 +53,7 @@
       class="login__register"
     >or create account</router-link>
     <LoadingSpinner v-if="loading" />
-    <AuthError class="login__error" v-if="error" />
+    <AuthError class="login__error" v-if="error">Error! Check your data</AuthError>
   </div>
 </template>
 <script>
@@ -219,11 +219,13 @@ export default {
     &-disabled {
       @extend .login__button;
       background-color: white;
-      color: black;
-      opacity: 20%;
+      color: rgb(51, 51, 51);
+      background-color: $button-disabled;
+      border-color: $button-disabled;
       cursor: not-allowed;
       &:hover {
-        color: black;
+        color: rgb(51, 51, 51);
+        background-color: $button-disabled;
       }
     }
   }
