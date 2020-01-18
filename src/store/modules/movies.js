@@ -26,7 +26,6 @@ export default {
             state.movies = []
             state.loading = true
             state.searched = false
-            console.log(auth);
         },
         resetActualMovie: (state) => {
             state.loading = true
