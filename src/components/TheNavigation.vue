@@ -58,15 +58,15 @@ import TheMovieClip from "./icons/TheMovieClip.vue";
 import TheLogin from "./icons/TheLoginIcon.vue";
 import TheLogout from "./icons/TheLogoutIcon.vue";
 export default {
-  data: () => ({
-    registerModal: false,
-    loginModal: false
-  }),
   components: {
     TheMovieClip,
     TheLogin,
     TheLogout
   },
+  data: () => ({
+    registerModal: false,
+    loginModal: false
+  }),
   computed: {
     logged() {
       return this.$store.state.auth.userId && this.$store.state.auth.token;
@@ -78,10 +78,10 @@ export default {
       this.$store.state.movies.searched = false;
     },
     showModal() {
-      this.$store.commit("showModal");
+      this.$store.commit("auth/showModal");
     },
     logout() {
-      this.$store.commit("logout");
+      this.$store.commit("auth/logout");
     }
   }
 };

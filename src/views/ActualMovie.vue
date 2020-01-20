@@ -1,10 +1,15 @@
 <template>
   <div>
     <!-- This div will be only rendered if the movie object is correct -->
-    <div class="movie" v-if="movie.constructor === Object && !isLoading">
+    <div
+      class="movie"
+      v-if="movie instanceof Object && 
+            !(movie instanceof Array) &&
+            !isLoading"
+    >
       <img
         :src="movie.poster_path ?
-        'https://image.tmdb.org/t/p/w500'+movie.poster_path : 
+        `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 
         require('../assets/no-poster.jpg')"
         class="movie__image"
       />
@@ -35,6 +40,10 @@
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import StarRating from "@/components/StarRating";
 export default {
+  components: {
+    LoadingSpinner,
+    StarRating
+  },
   props: {
     id: String
   },
@@ -42,7 +51,7 @@ export default {
     "$route.params.id": {
       immediate: true,
       handler() {
-        this.$store.dispatch("findExactMovie", this.$route.params.id);
+        this.$store.dispatch("movies/findExactMovie", this.$route.params.id);
       }
     }
   },
@@ -52,7 +61,12 @@ export default {
     },
     movieGenres() {
       // this.movie.genres is an array with seperate object for each genre
-      return this.movie.genres.map(genre => genre.name).join("/");
+      return (
+        this.movie &&
+        this.movie.genres &&
+        Array.isArray(this.movie.genres) &&
+        this.movie.genres.map(genre => genre.name).join("/")
+      );
     },
     favourite() {
       return this.$store.state.movies.favouriteMoviesIds.includes(
@@ -78,15 +92,11 @@ export default {
   },
   methods: {
     addToFavourite(movie) {
-      this.$store.dispatch("addFavouriteMovies", movie);
+      this.$store.dispatch("movies/addFavouriteMovies", movie);
     },
     removeFromFavourites(id) {
-      this.$store.dispatch("removeFavouriteMovie", id);
+      this.$store.dispatch("movies/removeFavouriteMovie", id);
     }
-  },
-  components: {
-    LoadingSpinner,
-    StarRating
   }
 };
 </script>

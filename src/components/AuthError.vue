@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <div class="error">
     <slot></slot>
   </div>
@@ -17,5 +17,6 @@
   box-sizing: border-box;
   background-color: rgb(238, 53, 53);
   color: white;
+  margin: 0 auto;
 }
 </style>

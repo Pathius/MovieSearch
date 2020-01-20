@@ -8,8 +8,10 @@
         :key="index"
         :movie="movie"
       />
-      <LoadingSpinner v-if="!movies.length && $store.state.loading" class="main__loading-spinner" />
-      <h3 v-if="!movies.length && !$store.state.loading && $store.state.searched">No movies found :(</h3>
+      <LoadingSpinner v-if="loading" class="main__loading-spinner" />
+      <h3
+        v-if="!movies.length && !$store.state.movies.loading && $store.state.movies.searched"
+      >No movies found :(</h3>
     </main>
   </div>
 </template>
@@ -18,15 +20,18 @@ import TheSearchingInput from "@/components/TheSearchingInput.vue";
 import MovieCard from "@/components/MovieCard.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 export default {
-  computed: {
-    movies() {
-      return this.$store.state.movies.movies;
-    }
-  },
   components: {
     MovieCard,
     TheSearchingInput,
     LoadingSpinner
+  },
+  computed: {
+    movies() {
+      return this.$store.state.movies.movies;
+    },
+    loading() {
+      return !this.movies.length && this.$store.state.movies.loading;
+    }
   }
 };
 </script>

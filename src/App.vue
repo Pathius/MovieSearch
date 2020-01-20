@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import TheLoginModal from "@/components/TheLoginModal";
+// import TheLoginModal from "@/components/TheLoginModal";
+const TheLoginModal = () => import("@/components/TheLoginModal.vue");
 import TheNavigation from "@/components/TheNavigation";
 export default {
   components: {
@@ -25,23 +26,23 @@ export default {
   },
   created() {
     this.$store.commit(
-      "checkIfLogged",
+      "auth/checkIfLogged",
       JSON.parse(localStorage.getItem("token"))
     );
-    this.$store.dispatch("getUpcomingMovies");
-    this.$store.dispatch("getPopularMovies");
+    this.$store.dispatch("movies/getUpcomingMovies");
+    this.$store.dispatch("movies/getPopularMovies");
     if (localStorage.getItem("token")) {
-      this.$store.dispatch("getFavouriteMovies");
+      this.$store.dispatch("movies/getFavouriteMovies");
     }
   },
   computed: {
     showModal() {
-      return this.$store.state.movies.showModal;
+      return this.$store.state.auth.showModal;
     }
   },
   methods: {
     closeModal() {
-      this.$store.commit("closeModal");
+      this.$store.commit("auth/closeModal");
     }
   }
 };

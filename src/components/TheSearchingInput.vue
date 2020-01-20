@@ -17,21 +17,21 @@
 <script>
 import TheSearch from "./icons/TheSearch.vue";
 export default {
+  components: {
+    TheSearch
+  },
   data: () => ({
     title: "",
     placeholder: "Search here"
   }),
-  components: {
-    TheSearch
-  },
   methods: {
     submit(title) {
-      this.$store.dispatch("searchByTitle", title);
+      this.$store.dispatch("movies/searchByTitle", title);
     },
     // This function is called if user tries to submit empty input
     // It prevents of sending API request with empty payload and returns movies to initial state
     resetMovies() {
-      this.$store.commit("resetMovies");
+      this.$store.commit("movies/resetMovies");
       this.$store.state.movies.loading = false;
     }
   }

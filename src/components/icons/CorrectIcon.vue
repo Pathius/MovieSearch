@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <svg
     version="1.1"
     id="Layer_1"
@@ -19,6 +19,10 @@
 </template>
 <style scoped lang="scss">
 svg {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  right: 18%;
   fill: green;
   width: 20px;
   height: 20px;

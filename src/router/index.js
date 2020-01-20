@@ -3,6 +3,13 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+const guest = (to, from, next) => {
+  localStorage.getItem("token") ? next() : next('/')
+}
+const logged = (to, from, next) => {
+  !(localStorage.getItem("token")) ? next() : next('/')
+}
+
 const routes = [
   {
     path: "/",
@@ -13,9 +20,7 @@ const routes = [
     path: "/favourite",
     name: "favourite",
     component: () => import('@/views/TheFavouriteMovies.vue'),
-    beforeEnter: (to, from, next) => {
-      localStorage.getItem("token") ? next() : next('/')
-    }
+    beforeEnter: guest
   },
   {
     path: "/movie/:id",
@@ -37,9 +42,7 @@ const routes = [
     path: "/register",
     name: "register",
     component: () => import('@/views/TheRegister.vue'),
-    beforeEnter: (to, from, next) => {
-      !(localStorage.getItem("token")) ? next() : next('/')
-    }
+    beforeEnter: logged
   },
   {
     path: "/error",

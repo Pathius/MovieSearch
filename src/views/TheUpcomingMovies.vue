@@ -14,13 +14,13 @@
 <script>
 import MovieCard from "@/components/MovieCard";
 export default {
+  components: {
+    MovieCard
+  },
   computed: {
     movies() {
       return this.$store.state.movies.upcomingMovies;
     }
-  },
-  components: {
-    MovieCard
   }
 };
 </script>

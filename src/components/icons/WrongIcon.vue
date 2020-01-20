@@ -1,21 +1,29 @@
-<template>
+<template functional>
   <svg
+    version="1.1"
+    id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
-    enable-background="new 0 0 512 512"
-    viewBox="0 0 512 512"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    viewBox="0 0 28 28"
+    xml:space="preserve"
   >
-    <path
+    <polygon
       fill="red"
-      d="M339.7,258.8l156.4-156.4c22.4-22.4,22.4-58.6,0-81c-22.4-22.4-58.6-22.4-81,0L258.8,177.8l-161-161
-	c-22.4-22.4-58.6-22.4-81,0c-22.4,22.4-22.4,58.6,0,81l161,161L22.3,414.3c-22.4,22.4-22.4,58.6,0,81C33.5,506.4,48.1,512,62.8,512
-	s29.3-5.6,40.5-16.8l155.5-155.5l150.9,150.9c11.2,11.2,25.8,16.8,40.5,16.8c14.7,0,29.3-5.6,40.5-16.8c22.4-22.4,22.4-58.6,0-81
-	L339.7,258.8z"
+      points="28,22.398 19.594,14 28,5.602 22.398,0 14,8.402 5.598,0 0,5.602 8.398,14 0,22.398 
+				5.598,28 14,19.598 22.398,28 			"
     />
   </svg>
 </template>
 <style scoped lang="scss">
 svg {
-  width: 16px;
-  height: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  right: 18%;
+  fill: green;
+  width: 18px;
+  height: 18px;
 }
 </style>

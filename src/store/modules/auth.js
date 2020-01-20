@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueAxios from 'vue-axios'
 import router from '@/router/index.js'
 import movies from './movies'
-import authAxios from '@/axios/authAxios.js'
-import databaseAxios from '@/axios/databaseAxios.js'
 
-Vue.use(Vuex, VueAxios)
+const authUrl = 'https://identitytoolkit.googleapis.com/v1/'
+const databaseUrl = 'https://movie-search-8b974.firebaseio.com/'
+Vue.use(Vuex)
 
 export default {
+    namespaced: true,
     state: {
         token: null,
         userId: null,
@@ -54,7 +54,12 @@ export default {
         async login({ state, commit, dispatch }, { loginPayload, stayLogged }) {
             state.loginIsLoading = true
             try {
-                let { data } = await authAxios.post(`accounts:signInWithPassword?key=${process.env.VUE_APP_AUTH_API_KEY}`, loginPayload)
+                let response = await fetch(`${authUrl}accounts:signInWithPassword?key=${process.env.VUE_APP_AUTH_API_KEY}`, {
+                    method: "POST",
+                    'Content-type': 'application/json',
+                    body: JSON.stringify(loginPayload)
+                })
+                let data = await response.json()
                 // IF "STAY LOGGED" CHECKBOX WAS CHECKED USER WILL STAY LOGGED FOR 48 HOURS
                 const expire = new Date()
                 if (stayLogged) {
@@ -64,7 +69,7 @@ export default {
                 }
                 data = { ...data, expire }
                 commit('setUser', data)
-                dispatch('getFavouriteMovies')
+                dispatch('movies/getFavouriteMovies', null, { root: true })
                 commit('closeModal')
             } catch (error) {
                 console.log("LOGIN ERROR", error)
@@ -78,10 +83,17 @@ export default {
             state.registerIsLoading = true
             try {
                 // ADDING USER TO AUTH DATABASE
-                let { data } = await authAxios.post(`accounts:signUp?key=${process.env.VUE_APP_AUTH_API_KEY}`, payload)
+                let response = await fetch(`${authUrl}accounts:signUp?key=${process.env.VUE_APP_AUTH_API_KEY}`, {
+                    method: "POST",
+                    'Content-type': 'application/json',
+                    body: JSON.stringify(payload)
+                })
+                let data = await response.json()
                 // ADDING USER TO A DATABASE
-                await databaseAxios.put(`${data.localId}.json`, {
-                    email: payload.email,
+                await fetch(`${databaseUrl}${data.localId}.json`, {
+                    method: "PUT",
+                    'Content-type': 'application/json',
+                    body: JSON.stringify({ email: payload.email })
                 })
                 // AFTER BEING REGISTER USER WILL STAY LOGGED ONLY FOR 1 HOUR
                 const expire = new Date()

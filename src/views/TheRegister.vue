@@ -1,63 +1,19 @@
 <template>
-  <div class="login" @keypress.enter="!$v.$invalid ? register() : ''">
+  <form class="login" @submit="!$v.$invalid ? register() : ''">
     <h2 class="login__title">Join us!</h2>
-    <div class="login__form-wrapper">
-      <input
-        type="text"
-        class="login__input"
-        v-model.trim="email"
-        @input="$v.email.$model = email"
-        :style="!$v.email.$dirty ? 
-        null : 
-        ($v.email.required && $v.email.minLength && $v.email.email) ? 
-        'border: 1px solid green' : 
-        'border: 1px solid red'"
-        @focus="emailPlaceholder = ''"
-        @blur="emailPlaceholder = 'Email'"
-        :placeholder="emailPlaceholder"
-      />
-      <CorrectIcon v-if="$v.email.$dirty && !$v.email.$invalid" class="login__icon" />
-      <WrongIcon v-if="$v.email.$dirty && $v.email.$invalid" class="login__icon" />
-    </div>
-    <div class="login__form-wrapper">
-      <input
-        type="password"
-        class="login__input"
-        v-model.trim="password"
-        @input="$v.password.$model = password"
-        :style="!$v.password.$dirty ? 
-        null : 
-        ($v.password.required && $v.password.minLength) ? 
-        'border: 1px solid green' : 
-        'border: 1px solid red'"
-        @focus="passwordPlaceholder = ''"
-        @blur="passwordPlaceholder = 'Password'"
-        :placeholder="passwordPlaceholder"
-      />
-      <CorrectIcon v-if="$v.password.$dirty && !$v.password.$invalid" class="login__icon" />
-      <WrongIcon v-if="$v.password.$dirty && $v.password.$invalid" class="login__icon" />
-    </div>
-    <div class="login__form-wrapper">
-      <input
-        type="password"
-        class="login__input"
-        v-model.trim="repeatPassword"
-        @input="$v.repeatPassword.$model = repeatPassword"
-        :style="!$v.repeatPassword.$dirty ? 
-        null : 
-        ($v.repeatPassword.required && $v.repeatPassword.minLength && $v.repeatPassword.sameAsPassword) ? 
-        'border: 1px solid green' : 
-        'border: 1px solid red'"
-        @focus="repeatPasswordPlaceholder = ''"
-        @blur="repeatPasswordPlaceholder = 'Repeat password'"
-        :placeholder="repeatPasswordPlaceholder"
-      />
-      <CorrectIcon
-        v-if="$v.repeatPassword.$dirty && !$v.repeatPassword.$invalid"
-        class="login__icon"
-      />
-      <WrongIcon v-if="$v.repeatPassword.$dirty && $v.repeatPassword.$invalid" class="login__icon" />
-    </div>
+    <BaseInput :placeholder="'Email'" :valid="isEmailValid" :type="'text'" v-model.trim="email" />
+    <BaseInput
+      :placeholder="'Password'"
+      :valid="isPasswordValid"
+      :type="'password'"
+      v-model.trim="password"
+    />
+    <BaseInput
+      :placeholder="'Repeat Password'"
+      :valid="isRepeatPasswordValid"
+      :type="'password'"
+      v-model.trim="repeatPassword"
+    />
     <button
       class="login__button"
       :class="$v.$invalid || loading ? 'login__button-disabled' : 'login__button'"
@@ -66,15 +22,19 @@
     >Register</button>
     <LoadingSpinner class="login__loading" v-if="loading" />
     <AuthError class="login__error" v-if="error">This email is already used!</AuthError>
-  </div>
+  </form>
 </template>
 <script>
-import CorrectIcon from "@/components/icons/CorrectIcon.vue";
-import WrongIcon from "@/components/icons/WrongIcon.vue";
+import BaseInput from "@/components/BaseInput.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import AuthError from "@/components/AuthError.vue";
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
 export default {
+  components: {
+    LoadingSpinner,
+    AuthError,
+    BaseInput
+  },
   data: () => ({
     emailPlaceholder: "Email",
     passwordPlaceholder: "Password",
@@ -106,7 +66,7 @@ export default {
         password: this.password,
         returnSecureToken: true
       };
-      this.$store.dispatch("register", payload);
+      this.$store.dispatch("auth/register", payload);
     }
   },
   computed: {
@@ -115,13 +75,19 @@ export default {
     },
     error() {
       return this.$store.state.auth.registerError;
+    },
+    isEmailValid() {
+      return this.$v.email.email && this.$v.email.minLength;
+    },
+    isPasswordValid() {
+      return this.$v.password.minLength;
+    },
+    isRepeatPasswordValid() {
+      return (
+        this.$v.repeatPassword.minLength &&
+        this.$v.repeatPassword.sameAsPassword
+      );
     }
-  },
-  components: {
-    CorrectIcon,
-    WrongIcon,
-    LoadingSpinner,
-    AuthError
   },
   created() {
     this.$store.state.auth.registerError = false;

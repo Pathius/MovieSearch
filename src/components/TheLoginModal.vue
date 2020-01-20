@@ -1,43 +1,14 @@
 <template>
-  <div class="login" @keypress.enter="!$v.$invalid ? login() : ''">
+  <form class="login" @submit="!$v.$invalid ? login() : ''">
     <TheCancelIcon class="login__cancel" @click.native="closeModal" />
     <h2 class="login__title">Welcome back!</h2>
-    <div class="login__form-wrapper">
-      <input
-        type="text"
-        class="login__input"
-        v-model.trim="email"
-        @input="$v.email.$model = email"
-        :style="!$v.email.$dirty ? 
-        null : 
-        ($v.email.required && $v.email.minLength && $v.email.email) ? 
-        'border: 1px solid green' : 
-        'border: 1px solid red'"
-        @focus="emailPlaceholder = ''"
-        @blur="emailPlaceholder = 'Email'"
-        :placeholder="emailPlaceholder"
-      />
-      <CorrectIcon v-if="$v.email.$dirty && !$v.email.$invalid" class="login__icon" />
-      <WrongIcon v-if="$v.email.$dirty && $v.email.$invalid" class="login__icon" />
-    </div>
-    <div class="login__form-wrapper">
-      <input
-        type="password"
-        class="login__input"
-        v-model.trim="password"
-        @input="$v.password.$model = password"
-        :style="!$v.password.$dirty ? 
-        null : 
-        ($v.password.required && $v.password.minLength) ? 
-        'border: 1px solid green' : 
-        'border: 1px solid red'"
-        @focus="passwordPlaceholder = ''"
-        @blur="passwordPlaceholder = 'Password'"
-        :placeholder="passwordPlaceholder"
-      />
-      <CorrectIcon v-if="$v.password.$dirty && !$v.password.$invalid" class="login__icon" />
-      <WrongIcon v-if="$v.password.$dirty && $v.password.$invalid" class="login__icon" />
-    </div>
+    <BaseInput :placeholder="'Email'" :valid="isEmailValid" :type="'text'" v-model.trim="email" />
+    <BaseInput
+      :placeholder="'Password'"
+      :valid="isPasswordValid"
+      :type="'password'"
+      v-model.trim="password"
+    />
     <div class="login__checkbox" @click="stayLogged = !stayLogged">
       <input type="checkbox" name="remember" class="login__checkbox-box" v-model="stayLogged" />Stay logged?
     </div>
@@ -53,17 +24,22 @@
       class="login__register"
     >or create account</router-link>
     <LoadingSpinner v-if="loading" />
-    <AuthError class="login__error" v-if="error">Error! Check your data</AuthError>
-  </div>
+    <AuthError :class="login__error" v-if="error">Error! Check your data</AuthError>
+  </form>
 </template>
 <script>
 import TheCancelIcon from "./icons/TheCancelIcon.vue";
-import CorrectIcon from "./icons/CorrectIcon.vue";
-import WrongIcon from "./icons/WrongIcon.vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import AuthError from "./AuthError.vue";
+import BaseInput from "./BaseInput.vue";
 import { required, minLength, email } from "vuelidate/lib/validators";
 export default {
+  components: {
+    TheCancelIcon,
+    LoadingSpinner,
+    AuthError,
+    BaseInput
+  },
   data: () => ({
     emailPlaceholder: "Email",
     passwordPlaceholder: "Password",
@@ -84,7 +60,7 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$store.commit("closeModal");
+      this.$store.commit("auth/closeModal");
     },
     login(payload) {
       payload = {
@@ -95,7 +71,7 @@ export default {
         },
         stayLogged: this.stayLogged
       };
-      this.$store.dispatch("login", payload);
+      this.$store.dispatch("auth/login", payload);
     }
   },
   computed: {
@@ -104,14 +80,13 @@ export default {
     },
     error() {
       return this.$store.state.auth.loginError;
+    },
+    isEmailValid() {
+      return this.$v.email.email && this.$v.email.minLength;
+    },
+    isPasswordValid() {
+      return this.$v.password.minLength;
     }
-  },
-  components: {
-    TheCancelIcon,
-    CorrectIcon,
-    WrongIcon,
-    LoadingSpinner,
-    AuthError
   },
   created() {
     this.$store.state.auth.loginError = false;
@@ -235,11 +210,6 @@ export default {
     &:hover {
       text-decoration: underline;
     }
-  }
-  &__error {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
   }
 }
 .spinner {
