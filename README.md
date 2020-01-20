@@ -7,6 +7,7 @@ Demo: https://heuristic-montalcini-0b1424.netlify.com
 
 * 0.2.2
     * Favourite movies are now connected to database
+    * Changed Axios into Fetch
 * 0.2.1
     * First authorization update
 * 0.1.0
