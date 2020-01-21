@@ -24,7 +24,7 @@
       class="login__register"
     >or create account</router-link>
     <LoadingSpinner v-if="loading" />
-    <AuthError :class="login__error" v-if="error">Error! Check your data</AuthError>
+    <AuthError :class="'login__error'" v-if="error">Error! Check your data</AuthError>
   </form>
 </template>
 <script>

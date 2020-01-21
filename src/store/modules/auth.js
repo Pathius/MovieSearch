@@ -21,6 +21,12 @@ export default {
     mutations: {
         showModal: state => state.showModal = true,
         closeModal: state => state.showModal = false,
+        showLoginError: state => state.loginError = true,
+        showRegisterError: state => state.registerError = true,
+        loginLoading: state => state.loginIsLoading = true,
+        loginNotLoading: state => state.loginIsLoading = false,
+        registerLoading: state => state.registerIsLoading = true,
+        registerNotLoading: state => state.registerIsLoading = false,
         logout: state => {
             state.token = ""
             state.userId = ""
@@ -51,14 +57,15 @@ export default {
     actions: {
         // Function called after submiting the login form
         // Takes input values as payload and returns results to data object
-        async login({ state, commit, dispatch }, { loginPayload, stayLogged }) {
-            state.loginIsLoading = true
+        async login({ commit, dispatch }, { loginPayload, stayLogged }) {
+            commit('loginLoading')
             try {
                 let response = await fetch(`${authUrl}accounts:signInWithPassword?key=${process.env.VUE_APP_AUTH_API_KEY}`, {
                     method: "POST",
                     'Content-type': 'application/json',
                     body: JSON.stringify(loginPayload)
                 })
+                if (!response.ok) throw new Error(response.statusText);
                 let data = await response.json()
                 // IF "STAY LOGGED" CHECKBOX WAS CHECKED USER WILL STAY LOGGED FOR 48 HOURS
                 const expire = new Date()
@@ -73,14 +80,14 @@ export default {
                 commit('closeModal')
             } catch (error) {
                 console.log("LOGIN ERROR", error)
-                state.loginError = true
+                commit('showLoginError')
             }
-            state.loginIsLoading = false
+            commit('loginNotLoading')
         },
         // Function called after submiting the register form
         // Takes input values as payload and returns results to data object
-        async register({ state, commit }, payload) {
-            state.registerIsLoading = true
+        async register({ commit }, payload) {
+            commit('registerLoading')
             try {
                 // ADDING USER TO AUTH DATABASE
                 let response = await fetch(`${authUrl}accounts:signUp?key=${process.env.VUE_APP_AUTH_API_KEY}`, {
@@ -88,6 +95,7 @@ export default {
                     'Content-type': 'application/json',
                     body: JSON.stringify(payload)
                 })
+                if (!response.ok) throw new Error(response.statusText);
                 let data = await response.json()
                 // ADDING USER TO A DATABASE
                 await fetch(`${databaseUrl}${data.localId}.json`, {
@@ -103,9 +111,9 @@ export default {
                 router.push('/favourite')
             } catch (error) {
                 console.log("REGISTER ERROR", error)
-                state.registerError = true
+                commit('showRegisterError')
             }
-            state.registerIsLoading = false
+            commit('registerNotLoading')
         }
     }
 }
