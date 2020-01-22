@@ -135,7 +135,6 @@ export default {
     font-weight: 300;
     font-size: 18px;
     margin: 10px;
-    text-align: center;
     transition-duration: 0.4s;
     @media screen and (max-width: 640px) {
       width: 70%;

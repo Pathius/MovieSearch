@@ -1,19 +1,17 @@
 <template>
   <div class="form">
     <input
-      :type="type"
-      :class="!value.length ?
+      v-bind="$attrs"
+      :class="!$attrs.value.length ?
        'form__input' :
-        valid ? 'form__input-correct' :
+        $attrs.valid ? 'form__input-correct' :
         'form__input-incorrect'"
-      @focus="inputPlaceholder = ''"
-      @blur="inputPlaceholder = placeholder"
-      :placeholder="inputPlaceholder"
-      :value="value"
+      @focus="$attrs.placeholder = ''"
+      @blur="$attrs.placeholder = inputPlaceholder"
       @input="$emit('input', $event.target.value)"
     />
-    <CorrectIcon v-if="valid && value.length" class="form__icon" />
-    <WrongIcon v-else-if="value.length" class="form__icon" />
+    <CorrectIcon v-if="$attrs.valid && $attrs.value.length" class="form__icon" />
+    <WrongIcon v-else-if="$attrs.value.length" class="form__icon" />
   </div>
 </template>
 <script>
@@ -26,26 +24,8 @@ export default {
   },
   data() {
     return {
-      inputPlaceholder: this.placeholder
+      inputPlaceholder: this.$attrs.placeholder
     };
-  },
-  props: {
-    placeholder: {
-      type: String,
-      required: true
-    },
-    value: {
-      type: String,
-      required: true
-    },
-    valid: {
-      type: Boolean,
-      required: true
-    },
-    type: {
-      type: String,
-      required: true
-    }
   }
 };
 </script>
@@ -56,6 +36,7 @@ export default {
   &__input {
     width: 60%;
     padding: 5px;
+    padding-left: 15px;
     border-radius: 10px;
     background-color: $input-dark;
     border: none;
@@ -63,7 +44,6 @@ export default {
     font-weight: 300;
     font-size: 18px;
     margin: 10px;
-    text-align: center;
     transition-duration: 0.4s;
     &-correct {
       @extend .form__input;
